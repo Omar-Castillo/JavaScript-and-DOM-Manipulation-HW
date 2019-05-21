@@ -30,17 +30,6 @@ console.log(tableKeys);
 //     });
 // });
 
-// Using arrows functions to simplify our code
-tableData.forEach((sighting) => {
-    console.log(sighting)
-    var row = tbody.append("tr");
-    Object.entries(sighting).forEach(([key, value]) => {
-        console.log(key, value);
-        var cell = row.append("td");
-        cell.text(value);
-    });
-});
-
 // Create a reference for new data to insert
 var newEntry = {
     datetime: "1/28/1996",
@@ -52,18 +41,30 @@ var newEntry = {
     comments: "Cowboys win a superbowl, that's alien!"
 };
 
-// Append one table row `tr` to the table body
-var newRow = tbody.append("tr");
+//append data to existing data
+tableData.splice(2, 0, newEntry);
 
-Object.entries(newEntry).forEach(([key, value]) => {
-    console.log(key,value);
-    newRow.append("td").text(value);
+// Using arrows functions to simplify our code
+//create a function for displaying data
+function ufoData(tableData) {
+    tableData.forEach((sighting) => {
+    console.log(sighting)
+    var row = tbody.append("tr");
+    Object.entries(sighting).forEach(([key, value]) => {
+        console.log(key, value);
+        var cell = row.append("td");
+        cell.text(value);
+    });
 });
+}
 
-// Select the Filter Table Button
-var submit = d3.select("#filter-btn");
+// display data
+ufoData(tableData);
 
-submit.on("click", function() {
+// Select the Date Filter Table Button
+var dateFilter = d3.select("#date-filter-btn");
+
+dateFilter.on("click", function() {
 
     //Prevent the page from refreshing
     d3.event.preventDefault();
@@ -85,17 +86,119 @@ submit.on("click", function() {
     d3.select("tbody").text("");
 
     //Run the new data into our filtered table
-    filteredData.forEach(sighting => {
-        console.log(sighting);
-        var row = tbody.append("tr");
-        Object.entries(sighting).forEach(([key,value]) =>{
-            console.log(key,value);
-            var cell = row.append("td");
-            cell.text(value);
-        });
-    });
+    ufoData(filteredData);
+});
 
-    
+// Select the City Filter Table Button
+var cityFilter = d3.select("#city-filter-btn");
+
+cityFilter.on("click", function() {
+
+    //Prevent the page from refreshing
+    d3.event.preventDefault();
+
+    //select the input element and get the raw HTML node
+    var inputElement = d3.select("#city");
+
+    //get the value property of the input element
+    var inputCity = inputElement.property("value");
+
+    console.log(inputCity);
+    console.log(tableData);
+
+    var filteredCity = tableData.filter( (input) => input.city === inputCity);
+
+    console.log(filteredCity);
+
+    //Clear the table
+    d3.select("tbody").text("");
+
+    //Run the new data into our filtered table
+    ufoData(filteredCity);
+});
+
+// Select the State Filter Table Button
+var stateFilter = d3.select("#state-filter-btn");
+
+stateFilter.on("click", function() {
+
+    //Prevent the page from refreshing
+    d3.event.preventDefault();
+
+    //select the input element and get the raw HTML node
+    var inputElement = d3.select("#state");
+
+    //get the value property of the input element
+    var inputState = inputElement.property("value");
+
+    console.log(inputState);
+    console.log(tableData);
+
+    var filteredState = tableData.filter( (input) => input.state === inputState);
+
+    console.log(filteredState);
+
+    //Clear the table
+    d3.select("tbody").text("");
+
+    //Run the new data into our filtered table
+    ufoData(filteredState);
+});
+
+// Select the Country Filter Table Button
+var countryFilter = d3.select("#country-filter-btn");
+
+countryFilter.on("click", function() {
+
+    //Prevent the page from refreshing
+    d3.event.preventDefault();
+
+    //select the input element and get the raw HTML node
+    var inputElement = d3.select("#country");
+
+    //get the value property of the input element
+    var inputCountry = inputElement.property("value");
+
+    console.log(inputCountry);
+    console.log(tableData);
+
+    var filteredCountry = tableData.filter( (input) => input.country === inputCountry);
+
+    console.log(filteredCountry);
+
+    //Clear the table
+    d3.select("tbody").text("");
+
+    //Run the new data into our filtered table
+    ufoData(filteredCountry);
+});
+
+// Select the Shape Filter Table Button
+var shapeFilter = d3.select("#shape-filter-btn");
+
+shapeFilter.on("click", function() {
+
+    //Prevent the page from refreshing
+    d3.event.preventDefault();
+
+    //select the input element and get the raw HTML node
+    var inputElement = d3.select("#shape");
+
+    //get the value property of the input element
+    var inputShape = inputElement.property("value");
+
+    console.log(inputShape);
+    console.log(tableData);
+
+    var filteredShape = tableData.filter( (input) => input.shape === inputShape);
+
+    console.log(filteredShape);
+
+    //Clear the table
+    d3.select("tbody").text("");
+
+    //Run the new data into our filtered table
+    ufoData(filteredShape);
 });
 
 // Select the Un-Filter Table Button
@@ -110,14 +213,6 @@ unfilter.on("click", function() {
     d3.select("tbody").text("");
 
     //Run the full data into our filtered table
-    tableData.forEach(sighting => {
-        console.log(sighting);
-        var row = tbody.append("tr");
-        Object.entries(sighting).forEach(([key,value]) =>{
-            console.log(key,value);
-            var cell = row.append("td");
-            cell.text(value);
-        });
-    });
-   
+    ufoData(tableData);
 });
+
